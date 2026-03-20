@@ -1,0 +1,43 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: rss-notifications-nosql
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: rss-notifications-broker
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_running"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+#  app:
+#    build:
+#      context: ..          # Sobe um nível para achar o Dockerfile na raiz
+#      dockerfile: Dockerfile
+#    container_name: rss-notification-app
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=prod
+#      - SPRING_MONGODB_URI=mongodb://admin:password@mongodb:27017/notifications_db?authSource=admin
+#      - SPRING_RABBITMQ_HOST=rabbitmq
+#    depends_on:
+#      mongodb:
+#        condition: service_healthy
+#      rabbitmq:
+#        condition: service_healthy

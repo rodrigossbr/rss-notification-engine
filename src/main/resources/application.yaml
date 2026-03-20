@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: rss-notification-engine
+
+  docker:
+    compose:
+      enabled: true
+      file: infra/docker-compose.yml
+      lifecycle-management: start_and_stop  # Sobe ao iniciar, mata ao desligar o App
+      readiness:
+        wait: ALWAYS # Espera o banco e o rabbit estarem prontos antes de subir o Java
+
+  mongodb:
+    uri: mongodb://admin:password@localhost:27017/notifications_db?authSource=admin
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: 8080
