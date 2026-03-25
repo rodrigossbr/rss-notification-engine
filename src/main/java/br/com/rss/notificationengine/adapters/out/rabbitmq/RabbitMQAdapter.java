@@ -2,12 +2,12 @@ package br.com.rss.notificationengine.adapters.out.rabbitmq;
 
 import br.com.rss.notificationengine.config.RabbitConfig;
 import br.com.rss.notificationengine.core.domain.NotificationLog;
-import br.com.rss.notificationengine.core.ports.out.SendMessageBrokerPort;
+import br.com.rss.notificationengine.core.ports.out.SendMessageBrokerOutputPort;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RabbitMQAdapter implements SendMessageBrokerPort {
+public class RabbitMQAdapter implements SendMessageBrokerOutputPort {
 
     private final RabbitTemplate rabbitTemplate;
 

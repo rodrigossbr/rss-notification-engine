@@ -1,4 +1,4 @@
-package br.com.rss.notificationengine.core.mappers;
+package br.com.rss.notificationengine.core.mapper;
 
 import java.util.Collections;
 import java.util.List;

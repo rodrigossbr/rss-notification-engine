@@ -7,11 +7,10 @@ import br.com.rss.notificationengine.adapters.in.rest.response.NotificationLogRe
 import br.com.rss.notificationengine.adapters.in.rest.response.NotificationSendResponse;
 import br.com.rss.notificationengine.adapters.in.rest.response.StandardResponse;
 import br.com.rss.notificationengine.core.domain.NotificationLog;
-import br.com.rss.notificationengine.core.usecase.GetNotificationLogsBySendIdUseCase;
-import br.com.rss.notificationengine.core.usecase.SendNotificationUseCase;
+import br.com.rss.notificationengine.core.ports.in.GetNotificationLogsBySendIdInputPort;
+import br.com.rss.notificationengine.core.ports.in.SendNotificationInputPort;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/notifications")
@@ -32,8 +32,8 @@ import java.util.List;
 @Tag(name = "Notifications", description = "Endpoints para envio e gerenciamento de notificações")
 public class NotificationController {
 
-    private final SendNotificationUseCase useCase;
-    private final GetNotificationLogsBySendIdUseCase getNotificationLogsBySendIdUseCase;
+    private final SendNotificationInputPort useCase;
+    private final GetNotificationLogsBySendIdInputPort getNotificationLogsBySendIdUseCase;
 
     private final NotificationLogMapper notificationLogMapper;
     private final NotificationLogResponseMapper notificationLogResponseMapper;
@@ -70,7 +70,7 @@ public class NotificationController {
             @PathVariable String sendId
     ) {
 
-        List<NotificationLog> logs = getNotificationLogsBySendIdUseCase.execute(sendId);
+        List<NotificationLog> logs = getNotificationLogsBySendIdUseCase.execute(UUID.fromString(sendId));
 
         List<NotificationLogResponse> responseList = notificationLogResponseMapper.toList(logs);
 

@@ -3,16 +3,17 @@ package br.com.rss.notificationengine.adapters.out.mongodb;
 import br.com.rss.notificationengine.adapters.out.mongodb.mapper.TemplateEntityMapper;
 import br.com.rss.notificationengine.adapters.out.mongodb.repository.TemplateRepository;
 import br.com.rss.notificationengine.core.domain.Template;
-import br.com.rss.notificationengine.core.ports.in.TemplatePort;
+import br.com.rss.notificationengine.core.ports.out.TemplatePersistenceOutputPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class TemplateAdapter implements TemplatePort {
+public class TemplateAdapter implements TemplatePersistenceOutputPort {
 
     private final TemplateRepository mongoRepository;
     private final TemplateEntityMapper templateEntityMapper;
@@ -33,7 +34,7 @@ public class TemplateAdapter implements TemplatePort {
     }
 
     @Override
-    public Optional<Template> findById(String id) {
+    public Optional<Template> findById(UUID id) {
         return mongoRepository.findById(id)
                 .map(templateEntityMapper::mapBack);
     }

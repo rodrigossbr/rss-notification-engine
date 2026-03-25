@@ -1,10 +1,12 @@
 package br.com.rss.notificationengine.adapters.out.mongodb.mapper;
 
-import br.com.rss.notificationengine.adapters.out.mongodb.entity.NotificationContentEntity;
 import br.com.rss.notificationengine.adapters.out.mongodb.entity.NotificationLogEntity;
+import br.com.rss.notificationengine.adapters.out.mongodb.entity.NotificationLogEntity.NotificationContentEntity;
 import br.com.rss.notificationengine.core.domain.NotificationLog;
-import br.com.rss.notificationengine.core.mappers.GenericMapper;
+import br.com.rss.notificationengine.core.mapper.GenericMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 import static java.util.Objects.isNull;
 
@@ -19,6 +21,7 @@ public class NotificationLogEntityMapper implements GenericMapper<NotificationLo
         }
 
         return NotificationLogEntity.builder()
+                .id(isNull(input.id()) ? UUID.randomUUID() : input.id())
                 .sendId(input.sendId())
                 .destination(input.destination())
                 .channel(input.channel())

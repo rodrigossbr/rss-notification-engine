@@ -1,20 +1,22 @@
 package br.com.rss.notificationengine.core.usecase;
 
 import br.com.rss.notificationengine.core.domain.Template;
-import br.com.rss.notificationengine.core.exceptions.TemplateNotFoundException;
-import br.com.rss.notificationengine.core.ports.in.TemplatePort;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import br.com.rss.notificationengine.core.exception.TemplateNotFoundException;
+import br.com.rss.notificationengine.core.ports.in.GetTemplateInputPort;
+import br.com.rss.notificationengine.core.ports.out.TemplatePersistenceOutputPort;
 
-@Service
-@RequiredArgsConstructor
-public class GetTemplateUseCase {
+public class GetTemplateUseCase implements GetTemplateInputPort {
 
-    private final TemplatePort templatePort;
+    private final TemplatePersistenceOutputPort templatePersistenceOutputPort;
 
+    public GetTemplateUseCase(TemplatePersistenceOutputPort templatePort) {
+        this.templatePersistenceOutputPort = templatePort;
+    }
+
+    @Override
     public Template execute(String key) {
 
-        return templatePort.findByTemplateKey(key)
+        return templatePersistenceOutputPort.findByTemplateKey(key)
                 .orElseThrow(() -> new TemplateNotFoundException(key));
     }
 }

@@ -5,11 +5,12 @@ import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnun;
 import lombok.Builder;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Builder(toBuilder = true)
 public record NotificationLog(
-        String id,
-        String sendId,
+        UUID id,
+        UUID sendId,
         String destination,
         NotificationEnun channel,
         NotificationContent content,
@@ -18,7 +19,7 @@ public record NotificationLog(
         Instant createdAt,
         Instant updatedAt
 ) {
-    public NotificationLog withId(String id) {
+    public NotificationLog withId(UUID id) {
         return new NotificationLog(
                 id,
                 sendId,

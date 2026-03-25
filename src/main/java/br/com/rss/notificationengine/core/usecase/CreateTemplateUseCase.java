@@ -1,18 +1,20 @@
 package br.com.rss.notificationengine.core.usecase;
 
 import br.com.rss.notificationengine.core.domain.Template;
-import br.com.rss.notificationengine.core.ports.in.TemplatePort;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import br.com.rss.notificationengine.core.ports.in.CreateTemplateInputPort;
+import br.com.rss.notificationengine.core.ports.out.TemplatePersistenceOutputPort;
 
-@Service
-@RequiredArgsConstructor
-public class CreateTemplateUseCase {
+public class CreateTemplateUseCase implements CreateTemplateInputPort {
 
-    private final TemplatePort saveTemplatePort;
+    private final TemplatePersistenceOutputPort templatePersistenceOutputPort;
 
+    public CreateTemplateUseCase(TemplatePersistenceOutputPort saveTemplatePort) {
+        this.templatePersistenceOutputPort = saveTemplatePort;
+    }
+
+    @Override
     public Template execute(Template template) {
 
-        return saveTemplatePort.save(template);
+        return templatePersistenceOutputPort.save(template);
     }
 }

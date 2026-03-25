@@ -2,10 +2,11 @@ package br.com.rss.notificationengine.adapters.out.mongodb.mapper;
 
 import br.com.rss.notificationengine.adapters.out.mongodb.entity.TemplateEntity;
 import br.com.rss.notificationengine.core.domain.Template;
-import br.com.rss.notificationengine.core.mappers.GenericMapper;
+import br.com.rss.notificationengine.core.mapper.GenericMapper;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import static java.util.Objects.isNull;
 
@@ -20,7 +21,7 @@ public class TemplateEntityMapper implements GenericMapper<Template, TemplateEnt
         }
 
         return TemplateEntity.builder()
-                .id(input.getId())
+                .id(isNull(input.getId()) ? UUID.randomUUID() : input.getId())
                 .templateKey(input.getTemplateKey())
                 .name(input.getName())
                 .content(input.getContent())

@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Document(collection = "templates")
 @Getter
@@ -16,7 +17,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class TemplateEntity {
     @Id
-    private String id;
+    private UUID id;
 
     @Indexed(unique = true)
     private String templateKey;

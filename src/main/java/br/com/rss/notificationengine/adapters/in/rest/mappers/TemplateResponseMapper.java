@@ -2,8 +2,10 @@ package br.com.rss.notificationengine.adapters.in.rest.mappers;
 
 import br.com.rss.notificationengine.adapters.in.rest.response.TemplateResponse;
 import br.com.rss.notificationengine.core.domain.Template;
-import br.com.rss.notificationengine.core.mappers.GenericMapper;
+import br.com.rss.notificationengine.core.mapper.GenericMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 import static java.util.Objects.isNull;
 

@@ -2,27 +2,39 @@ package br.com.rss.notificationengine.core.usecase;
 
 import br.com.rss.notificationengine.core.domain.NotificationLog;
 import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnun;
-import br.com.rss.notificationengine.core.ports.in.NotificationLogPort;
-import br.com.rss.notificationengine.core.ports.out.SendMessageBrokerPort;
-import br.com.rss.notificationengine.core.ports.out.TemplateEnginePort;
-import lombok.RequiredArgsConstructor;
+import br.com.rss.notificationengine.core.exception.BusinessException;
+import br.com.rss.notificationengine.core.ports.in.SendNotificationInputPort;
+import br.com.rss.notificationengine.core.ports.out.NotificationLogOutputPort;
+import br.com.rss.notificationengine.core.ports.out.SendMessageBrokerOutputPort;
+import br.com.rss.notificationengine.core.ports.out.TemplateEngineOutputPort;
+import br.com.rss.notificationengine.core.ports.out.TemplatePersistenceOutputPort;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import static java.util.Objects.isNull;
 
 
 @Slf4j
-@Service
-@RequiredArgsConstructor
-public class SendNotificationUseCase {
+public class SendNotificationUseCase implements SendNotificationInputPort {
 
-    private final NotificationLogPort saveNotificationLogPort;
-    private final SendMessageBrokerPort sendMessageBrokerPort;
-    private final TemplateEnginePort templateEnginePort;
+    private final NotificationLogOutputPort notificationLogOutputPort;
+    private final SendMessageBrokerOutputPort sendMessageBrokerOutputPort;
+    private final TemplateEngineOutputPort templateEngineOutputPort;
+    private final TemplatePersistenceOutputPort templatePersistenceOutputPort;
 
+    public SendNotificationUseCase(NotificationLogOutputPort saveNotificationLogPort,
+                                   SendMessageBrokerOutputPort sendMessageBrokerPort,
+                                   TemplateEngineOutputPort templateEnginePort,
+                                   TemplatePersistenceOutputPort templatePersistencePort) {
+        this.notificationLogOutputPort = saveNotificationLogPort;
+        this.sendMessageBrokerOutputPort = sendMessageBrokerPort;
+        this.templateEngineOutputPort = templateEnginePort;
+        this.templatePersistenceOutputPort = templatePersistencePort;
+    }
+
+    @Override
     public void execute(NotificationLog notification) {
         log.info("Iniciando orquestração de envio. SendId: {}, Canal: {}",
                 notification.sendId(), notification.channel());
@@ -37,10 +49,10 @@ public class SendNotificationUseCase {
                     .updatedAt(Instant.now())
                     .build();
 
-            var savedLog = saveNotificationLogPort.save(logEntry);
+            var savedLog = notificationLogOutputPort.save(logEntry);
             log.info("Notificação registrada no banco com ID: {}", savedLog.id());
 
-            sendMessageBrokerPort.send(savedLog);
+            sendMessageBrokerOutputPort.send(savedLog);
             log.info("Notificação encaminhada para a fila de processamento: {}", notification.channel());
 
         } catch (Exception e) {
@@ -59,8 +71,12 @@ public class SendNotificationUseCase {
         if (!isNull(notification.template()) && !isNull(notification.template().templateId())) {
 
             log.debug("Usando template: {}", notification.template().templateId());
-            return templateEnginePort.process(
-                    notification.template().templateId(),
+
+            var template = templatePersistenceOutputPort.findById(UUID.fromString(notification.template().templateId()))
+                    .orElseThrow(() -> new BusinessException("Template não encontrado: " + notification.template().templateId()));
+
+            return templateEngineOutputPort.process(
+                    template.getContent(),
                     notification.template().params()
             );
         }

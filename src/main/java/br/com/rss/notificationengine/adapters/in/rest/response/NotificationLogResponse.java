@@ -8,6 +8,7 @@ import lombok.Builder;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Schema(
         name = "NotificationLogResponse",
@@ -19,7 +20,7 @@ public record NotificationLogResponse(
                 description = "Identificador do envio da notificação",
                 example = "f3a2c1b0-7d2e-4f3a-9d11-1a2b3c4d5e6f"
         )
-        String sendId,
+        UUID sendId,
 
         @Schema(
                 description = "Destino da notificação",

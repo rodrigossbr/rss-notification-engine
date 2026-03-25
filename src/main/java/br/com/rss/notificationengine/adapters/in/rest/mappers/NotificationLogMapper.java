@@ -4,8 +4,10 @@ import br.com.rss.notificationengine.adapters.in.rest.request.NotificationReques
 import br.com.rss.notificationengine.core.domain.NotificationContent;
 import br.com.rss.notificationengine.core.domain.NotificationLog;
 import br.com.rss.notificationengine.core.domain.NotificationTemplate;
-import br.com.rss.notificationengine.core.mappers.GenericMapper;
+import br.com.rss.notificationengine.core.mapper.GenericMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 import static java.util.Objects.isNull;
 
@@ -19,7 +21,7 @@ public class NotificationLogMapper implements GenericMapper<NotificationRequest,
             return null;
 
         return NotificationLog.builder()
-                .sendId(request.sendId())
+                .sendId(UUID.fromString(request.sendId()))
                 .destination(request.destination())
                 .channel(request.channel())
                 .content(NotificationContent.builder()

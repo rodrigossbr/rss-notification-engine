@@ -10,6 +10,9 @@ spring:
       readiness:
         wait: ALWAYS # Espera o banco e o rabbit estarem prontos antes de subir o Java
 
+  data:
+    mongodb:
+      auto-index-creation: true
   mongodb:
     uri: mongodb://admin:password@localhost:27017/notifications_db?authSource=admin
 

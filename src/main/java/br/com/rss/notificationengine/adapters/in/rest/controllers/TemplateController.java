@@ -5,8 +5,9 @@ import br.com.rss.notificationengine.adapters.in.rest.mappers.TemplateResponseMa
 import br.com.rss.notificationengine.adapters.in.rest.request.TemplateRequest;
 import br.com.rss.notificationengine.adapters.in.rest.response.StandardResponse;
 import br.com.rss.notificationengine.adapters.in.rest.response.TemplateResponse;
-import br.com.rss.notificationengine.core.usecase.GetAllTemplatesUseCase;
-import br.com.rss.notificationengine.core.usecase.GetTemplateUseCase;
+import br.com.rss.notificationengine.core.ports.in.CreateTemplateInputPort;
+import br.com.rss.notificationengine.core.ports.in.GetAllTemplatesInputPort;
+import br.com.rss.notificationengine.core.ports.in.GetTemplateInputPort;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,9 +30,9 @@ import java.util.List;
 @Tag(name = "Templates", description = "Endpoints para criação e consulta de templates")
 public class TemplateController {
 
-    private final br.com.rss.notificationengine.core.usecase.CreateTemplateUseCase createTemplateUseCase;
-    private final GetTemplateUseCase getTemplateUseCase;
-    private final GetAllTemplatesUseCase getAllTemplatesUseCase;
+    private final CreateTemplateInputPort createTemplateUseCase;
+    private final GetTemplateInputPort getTemplateUseCase;
+    private final GetAllTemplatesInputPort getAllTemplatesUseCase;
 
     private final TemplateMapper templateMapper;
     private final TemplateResponseMapper templateResponseMapper;

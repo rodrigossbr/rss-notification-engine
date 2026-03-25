@@ -2,16 +2,14 @@ package br.com.rss.notificationengine.adapters.out.mongodb.entity;
 
 import br.com.rss.notificationengine.core.domain.enums.NotificationEnun;
 import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnun;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
 
 @Document(collection = "notification_logs")
 @Getter
@@ -22,10 +20,10 @@ import java.time.Instant;
 public class NotificationLogEntity {
 
     @Id
-    private String id;
+    private UUID id;
 
     @Indexed
-    private String sendId;
+    private UUID sendId;
 
     private String destination;
 
@@ -38,4 +36,16 @@ public class NotificationLogEntity {
     private Instant createdAt;
 
     private Instant updatedAt;
+
+    @Getter
+    @Setter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class NotificationContentEntity {
+
+        private String body;
+
+        private List<String> attachmentsBase64;
+    }
 }

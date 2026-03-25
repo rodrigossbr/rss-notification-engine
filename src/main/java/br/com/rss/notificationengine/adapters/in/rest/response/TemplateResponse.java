@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Schema(name = "TemplateResponse", description = "Resposta com os dados de um template de notificação")
 @Builder
@@ -13,7 +14,7 @@ public record TemplateResponse(
                 description = "Identificador interno do template",
                 example = "65f1b2a8c9d4e1001a2b3c4d"
         )
-        String id,
+        UUID id,
 
         @Schema(
                 description = "Chave única do template",

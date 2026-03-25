@@ -1,58 +1,180 @@
-# RSS Notification Engine 🚀
+<div align="center">
+  <img src="https://raw.githubusercontent.com/spring-projects/spring-boot/main/spring-boot-project/spring-boot-docs/src/main/resources/images/logo.png" width="100" alt="Spring Boot Logo">
+  <h1>RSS Notification Engine 🚀</h1>
+  <p><strong>A high-performance microservice for asynchronous notification orchestration</strong></p>
 
-O **RSS Notification Engine** é um microserviço de alta performance desenvolvido em **Java 25/Spring Boot 4**, projetado para orquestrar o envio de notificações (E-mail, SMS, WhatsApp e Push) de forma assíncrona e resiliente. O projeto utiliza **Arquitetura Hexagonal** para garantir o desacoplamento entre a lógica de negócio e as tecnologias de infraestrutura.
-
-## 🛠 Tecnologias Principais
-* **Java 26** (Utilizando Virtual Threads para alta concorrência)
-* **Spring Boot 4.0.4**
-* **MongoDB** (Persistência de logs e auditoria com Spring Data)
-* **RabbitMQ** (Broker de mensageria com Topic Exchanges)
-* **Docker & Docker Compose** (Orquestração de containers)
-* **OpenAPI 3 (Swagger)** (Documentação interativa)
+  [![Java Version](https://img.shields.io/badge/Java-26-orange?style=flat-square&logo=openjdk)](https://openjdk.org/)
+  [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.4-brightgreen?style=flat-square&logo=springboot)](https://spring.io/projects/spring-boot)
+  [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+</div>
 
 ---
 
-## 🏗 Arquitetura
-O projeto segue o padrão **Hexagonal (Ports and Adapters)**:
-* **Core:** Contém o domínio e os casos de uso (Business Logic), independente de frameworks.
-* **Adapters In:** Entrada via API REST (Controllers) e futuramente Consumers.
-* **Adapters Out:** Saída para MongoDB e RabbitMQ.
+[Português (Brasil)](README.pt-br.md) | English
+
+The **RSS Notification Engine** is a high-performance microservice developed in **Java 26** and **Spring Boot 4.0.4**. It is designed to orchestrate notification delivery (Email, SMS, WhatsApp and Push) asynchronously and resiliently. The project follows the **Hexagonal Architecture** (Ports and Adapters) to ensure complete decoupling between business logic and infrastructure technologies.
 
 ---
 
-## 🐳 Ambiente de Desenvolvimento
+## 🛠 Tech Stack
 
-Para facilitar o desenvolvimento, a infraestrutura é automatizada. O Spring Boot gerencia o ciclo de vida dos containers localmente.
+*   **Java 26** (Utilizing Virtual Threads for high concurrency)
+*   **Spring Boot 4.0.4**
+*   **MongoDB** (Persistence for logs, templates, and auditing with Spring Data)
+*   **RabbitMQ** (Message broker with Topic Exchanges)
+*   **Docker & Docker Compose** (Container orchestration)
+*   **Spring Boot Docker Compose Support** (Automatic lifecycle management)
+*   **OpenAPI 3 (Swagger)** (Interactive API documentation)
+*   **Lombok** (Boilerplate reduction)
 
-### 🚀 Como rodar
-1. Certifique-se de que o **Docker Desktop** está rodando.
-2. Execute a aplicação via IDE (IntelliJ) usando o perfil `local`:
-   ```bash
-   -Dspring.profiles.active=local
-   ```
-3. Automação: Ao iniciar, o Spring subirá o MongoDB e o RabbitMQ automaticamente. Assim que o serviço estiver pronto, o Swagger será aberto automaticamente no seu navegador padrão.
+---
 
-### 📊 Serviços e Documentação
+## 🏗 Architecture
 
-| Serviço | Porta / URL | Credenciais | Descrição |
+The project is structured according to **Hexagonal Architecture** principles:
+
+*   **Core:** Contains the domain models, enums, exceptions, and Use Cases (Business Logic). It is independent of external frameworks.
+*   **Ports:** Interfaces that define how the Core interacts with the outside world (Inbound/Outbound).
+*   **Adapters In:** REST Controllers for API interaction.
+*   **Adapters Out:** Implementations for MongoDB persistence and RabbitMQ messaging.
+
+---
+
+## 📋 Requirements
+
+*   **Java JDK 26**
+*   **Maven 3.9+** (or use the provided `./mvnw`)
+*   **Docker & Docker Compose**
+*   **IDE** (IntelliJ IDEA recommended)
+
+---
+
+## 🚀 Getting Started
+
+### 1. Automatic Infrastructure (Recommended)
+
+This project uses `spring-boot-docker-compose` to automatically manage the infrastructure (MongoDB and RabbitMQ) during development.
+
+1.  Ensure **Docker Desktop** is running.
+2.  Run the application using the `local` profile:
+    ```bash
+    ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+    ```
+    *Or via IDE using VM option:* `-Dspring.profiles.active=local`
+
+3.  The application will automatically:
+    *   Start MongoDB and RabbitMQ containers.
+    *   Wait for them to be healthy.
+    *   Open the Swagger UI in your default browser (via `BrowserLauncher`).
+
+### 2. Manual Infrastructure
+
+If you prefer to manage the infrastructure manually:
+
+*   **Start Infrastructure:**
+    ```bash
+    docker-compose -f infra/docker-compose.yml up -d
+    ```
+*   **Stop Infrastructure:**
+    ```bash
+    docker-compose -f infra/docker-compose.yml down
+    ```
+
+---
+
+## 📊 Services & Documentation
+
+| Service | Port / URL | Credentials | Description |
 | :--- | :--- | :--- | :--- |
-| **Swagger UI** | [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) | - | Teste e documentação da API. |
-| **MongoDB** | `27017` | `admin` / `password` | Banco NoSQL para logs de envio. |
-| **Rabbit Management**| [http://localhost:15672](http://localhost:15672) | `guest` / `guest` | Painel de controle das filas. |
+| **App API** | `8080` | - | REST API Endpoint |
+| **Swagger UI** | [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) | - | Interactive API Docs |
+| **MongoDB** | `27017` | `admin` / `password` | NoSQL Storage |
+| **Rabbit Management** | [http://localhost:15672](http://localhost:15672) | `guest` / `guest` | Message Broker UI |
 
-## 🔍 Comandos Úteis (Via Terminal)
+---
 
-Caso prefira gerenciar a infraestrutura manualmente a partir da **raiz do projeto**:
+## 🛠 Useful Scripts & Commands
 
-* **Subir infraestrutura:**
-  ```bash
-  docker-compose -f infra/docker-compose.yml up -d
-  ```
-* **Logs em tempo real:**
-  ```bash
-  docker-compose -f infra/docker-compose.yml logs -f
-  ```
-* **Parar e limpar ambiente:**
-  ```bash
-  docker-compose -f infra/docker-compose.yml down
-  ```
+*   **Build the project:**
+    ```bash
+    ./mvnw clean package
+    ```
+*   **Run tests:**
+    ```bash
+    ./mvnw test
+    ```
+*   **Generate Docker Image:**
+    ```bash
+    docker build -t rss-notification-engine .
+    ```
+*   **Check Docker Logs:**
+    ```bash
+    docker-compose -f infra/docker-compose.yml logs -f
+    ```
+
+---
+
+## 🌐 Environment Variables
+
+| Variable | Default (Local) | Description |
+| :--- | :--- | :--- |
+| `SPRING_PROFILES_ACTIVE` | `local` | Active Spring profile (`local`, `prod`) |
+| `SPRING_MONGODB_URI` | `mongodb://admin:password@localhost:27017/notifications_db` | MongoDB connection string |
+| `SPRING_RABBITMQ_HOST` | `localhost` | RabbitMQ host |
+| `SPRING_RABBITMQ_PORT` | `5672` | RabbitMQ port |
+| `SERVER_PORT` | `8080` | Application port |
+
+---
+
+## 📂 Project Structure
+
+```text
+src/main/java/br/com/rss/notificationengine/
+├── adapters/          # Ports implementations
+│   ├── in/            # Entry points (REST Controllers)
+│   └── out/           # Infrastructure (MongoDB, RabbitMQ)
+├── config/            # Framework configurations (Bean, Mongo, Rabbit)
+├── core/              # Business Logic (The Hexagon Heart)
+│   ├── domain/        # Entities and value objects
+│   ├── ports/         # Inbound/Outbound Interfaces
+│   └── usecase/       # Application services/use cases
+└── RssNotificationEngineApplication.java # Entry point
+```
+
+---
+
+## 🧪 Testing
+
+The project includes unit and integration tests.
+*   **Unit Tests:** Focus on Use Cases and Domain logic.
+*   **Integration Tests:** Verify adapters and configuration.
+
+Run all tests with:
+```bash
+./mvnw test
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See the `LICENSE` file or the details in `pom.xml` for more information.
+
+---
+
+## 🚧 TODOs
+
+- [ ] Implement Consumers (Adapters In) for asynchronous message processing.
+- [ ] Add more comprehensive integration tests for RabbitMQ.
+- [ ] Implement circuit breaker patterns (Resilience4j).
+- [ ] Add support for WhatsApp and Push notification providers.
+
+<div align="center">
+  <hr>
+  <p>Developed with 💻 and ☕ by <strong>Rodrigo Silveira dos Santos</strong></p>
+  <img src="https://img.shields.io/badge/Local-Imbé%2C%20RS-blue?style=flat-square&logo=googlemaps&logoColor=white" alt="Local">
+  <a href="mailto:rodrigoss.br%40gmail.com" target="_blank">
+    <img src="https://img.shields.io/badge/Email-rodrigoss.br%40gmail.com-green?style=flat-square&logo=gmail&logoColor=white" alt="Email">
+  </a>
+  <p>© 2026 All rights reserved.</p>
+</div>

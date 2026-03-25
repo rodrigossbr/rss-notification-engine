@@ -3,8 +3,10 @@ package br.com.rss.notificationengine.adapters.in.rest.mappers;
 import br.com.rss.notificationengine.adapters.in.rest.response.NotificationLogResponse;
 import br.com.rss.notificationengine.adapters.in.rest.response.NotificationLogResponse.NotificationContentResponse;
 import br.com.rss.notificationengine.core.domain.NotificationLog;
-import br.com.rss.notificationengine.core.mappers.GenericMapper;
+import br.com.rss.notificationengine.core.mapper.GenericMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
