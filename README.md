@@ -3,7 +3,7 @@
 O **RSS Notification Engine** é um microserviço de alta performance desenvolvido em **Java 25/Spring Boot 4**, projetado para orquestrar o envio de notificações (E-mail, SMS, WhatsApp e Push) de forma assíncrona e resiliente. O projeto utiliza **Arquitetura Hexagonal** para garantir o desacoplamento entre a lógica de negócio e as tecnologias de infraestrutura.
 
 ## 🛠 Tecnologias Principais
-* **Java 25** (Utilizando Virtual Threads para alta concorrência)
+* **Java 26** (Utilizando Virtual Threads para alta concorrência)
 * **Spring Boot 4.0.4**
 * **MongoDB** (Persistência de logs e auditoria com Spring Data)
 * **RabbitMQ** (Broker de mensageria com Topic Exchanges)

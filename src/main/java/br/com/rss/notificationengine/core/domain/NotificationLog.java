@@ -1,20 +1,34 @@
 package br.com.rss.notificationengine.core.domain;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import java.time.LocalDateTime;
-import java.util.Map;
+import br.com.rss.notificationengine.core.domain.enums.NotificationEnun;
+import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnun;
+import lombok.Builder;
 
-@Document(collection = "notifications")
+import java.time.Instant;
+
+@Builder(toBuilder = true)
 public record NotificationLog(
-        @Id String id,
-        String userId,
+        String id,
+        String sendId,
         String destination,
-        String channel,
-        String status,
-        Map<String, Object> payload,
-
-        @CreatedDate
-        LocalDateTime createdAt
-) {}
+        NotificationEnun channel,
+        NotificationContent content,
+        NotificationTemplate template,
+        NotificationStatusEnun status,
+        Instant createdAt,
+        Instant updatedAt
+) {
+    public NotificationLog withId(String id) {
+        return new NotificationLog(
+                id,
+                sendId,
+                destination,
+                channel,
+                content,
+                template,
+                status,
+                createdAt,
+                updatedAt
+        );
+    }
+}
