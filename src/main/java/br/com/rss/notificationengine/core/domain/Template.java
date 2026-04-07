@@ -1,6 +1,6 @@
 package br.com.rss.notificationengine.core.domain;
 
-import br.com.rss.notificationengine.core.domain.enums.NotificationEnun;
+import br.com.rss.notificationengine.core.domain.enums.NotificationEnum;
 import lombok.*;
 
 import java.util.UUID;
@@ -15,7 +15,7 @@ public class Template {
     private String templateKey;
     private String name;
     private String content;
-    private NotificationEnun channel;
+    private NotificationEnum channel;
     private Instant createdAt;
     private Instant updatedAt;
 
@@ -24,6 +24,5 @@ public class Template {
         this.name = newData.getName() != null ? newData.getName() : this.name;
         this.content = newData.getContent() != null ? newData.getContent() : this.content;
         this.channel = newData.getChannel() != null ? newData.getChannel() : this.channel;
-        this.updatedAt = Instant.now();
     }
 }

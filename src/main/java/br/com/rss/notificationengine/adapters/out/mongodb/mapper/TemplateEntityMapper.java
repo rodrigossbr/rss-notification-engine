@@ -5,9 +5,6 @@ import br.com.rss.notificationengine.core.domain.Template;
 import br.com.rss.notificationengine.core.mapper.GenericMapper;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import static java.util.Objects.isNull;
 
 @Component
@@ -21,13 +18,11 @@ public class TemplateEntityMapper implements GenericMapper<Template, TemplateEnt
         }
 
         return TemplateEntity.builder()
-                .id(isNull(input.getId()) ? UUID.randomUUID() : input.getId())
+                .id(input.getId())
                 .templateKey(input.getTemplateKey())
                 .name(input.getName())
                 .content(input.getContent())
                 .channel(input.getChannel())
-                .createdAt(isNull(input.getCreatedAt()) ? Instant.now() : input.getCreatedAt())
-                .updatedAt(isNull(input.getUpdatedAt()) ? Instant.now() : input.getUpdatedAt())
                 .build();
     }
 

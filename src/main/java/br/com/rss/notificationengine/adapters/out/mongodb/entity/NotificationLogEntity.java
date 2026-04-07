@@ -1,9 +1,11 @@
 package br.com.rss.notificationengine.adapters.out.mongodb.entity;
 
-import br.com.rss.notificationengine.core.domain.enums.NotificationEnun;
-import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnun;
+import br.com.rss.notificationengine.core.domain.enums.NotificationEnum;
+import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnum;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -27,14 +29,16 @@ public class NotificationLogEntity {
 
     private String destination;
 
-    private NotificationEnun channel;
+    private NotificationEnum channel;
 
     private NotificationContentEntity content;
 
-    private NotificationStatusEnun status;
+    private NotificationStatusEnum status;
 
+    @CreatedDate
     private Instant createdAt;
 
+    @LastModifiedDate
     private Instant updatedAt;
 
     @Getter

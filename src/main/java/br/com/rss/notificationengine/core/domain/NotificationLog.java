@@ -1,7 +1,7 @@
 package br.com.rss.notificationengine.core.domain;
 
-import br.com.rss.notificationengine.core.domain.enums.NotificationEnun;
-import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnun;
+import br.com.rss.notificationengine.core.domain.enums.NotificationEnum;
+import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnum;
 import lombok.Builder;
 
 import java.time.Instant;
@@ -12,10 +12,10 @@ public record NotificationLog(
         UUID id,
         UUID sendId,
         String destination,
-        NotificationEnun channel,
+        NotificationEnum channel,
         NotificationContent content,
         NotificationTemplate template,
-        NotificationStatusEnun status,
+        NotificationStatusEnum status,
         Instant createdAt,
         Instant updatedAt
 ) {

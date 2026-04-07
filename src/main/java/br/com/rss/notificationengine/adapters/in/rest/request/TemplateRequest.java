@@ -1,6 +1,6 @@
 package br.com.rss.notificationengine.adapters.in.rest.request;
 
-import br.com.rss.notificationengine.core.domain.enums.NotificationEnun;
+import br.com.rss.notificationengine.core.domain.enums.NotificationEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +37,6 @@ public record TemplateRequest(
                 allowableValues = {"EMAIL", "SMS", "WHATSAPP", "PUSH"}
         )
         @NotNull(message = "O canal de envio deve ser informado")
-        NotificationEnun channel
+        NotificationEnum channel
 ) {
 }

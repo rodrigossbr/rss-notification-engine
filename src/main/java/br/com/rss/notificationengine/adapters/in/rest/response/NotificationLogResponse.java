@@ -1,7 +1,7 @@
 package br.com.rss.notificationengine.adapters.in.rest.response;
 
-import br.com.rss.notificationengine.core.domain.enums.NotificationEnun;
-import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnun;
+import br.com.rss.notificationengine.core.domain.enums.NotificationEnum;
+import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnum;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -33,14 +33,14 @@ public record NotificationLogResponse(
                 example = "EMAIL",
                 allowableValues = {"EMAIL", "SMS", "WHATSAPP", "PUSH"}
         )
-        NotificationEnun channel,
+        NotificationEnum channel,
 
         @Schema(
                 description = "Status atual do processamento da notificação",
                 example = "SENT",
                 allowableValues = {"PENDING", "PROCESSING", "SENT", "FAILED"}
         )
-        NotificationStatusEnun status,
+        NotificationStatusEnum status,
 
         @Schema(
                 description = "Conteúdo efetivo da notificação"

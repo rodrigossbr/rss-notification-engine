@@ -1,6 +1,6 @@
 package br.com.rss.notificationengine.adapters.in.rest.request;
 
-import br.com.rss.notificationengine.core.domain.enums.NotificationEnun;
+import br.com.rss.notificationengine.core.domain.enums.NotificationEnum;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -35,7 +35,7 @@ public record NotificationRequest(
                 allowableValues = {"EMAIL", "SMS", "WHATSAPP", "PUSH"}
         )
         @NotNull(message = "O canal (EMAIL, SMS, etc) é obrigatório")
-        NotificationEnun channel,
+        NotificationEnum channel,
 
         @Valid
         @NotNull(message = "O conteúdo da notificação é obrigatório")

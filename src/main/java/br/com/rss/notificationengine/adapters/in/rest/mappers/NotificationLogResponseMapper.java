@@ -6,8 +6,6 @@ import br.com.rss.notificationengine.core.domain.NotificationLog;
 import br.com.rss.notificationengine.core.mapper.GenericMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 

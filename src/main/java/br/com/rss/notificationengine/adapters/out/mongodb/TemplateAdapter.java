@@ -3,8 +3,10 @@ package br.com.rss.notificationengine.adapters.out.mongodb;
 import br.com.rss.notificationengine.adapters.out.mongodb.mapper.TemplateEntityMapper;
 import br.com.rss.notificationengine.adapters.out.mongodb.repository.TemplateRepository;
 import br.com.rss.notificationengine.core.domain.Template;
+import br.com.rss.notificationengine.core.exception.TemplateAlreadyExistsException;
 import br.com.rss.notificationengine.core.ports.out.TemplatePersistenceOutputPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,11 +22,13 @@ public class TemplateAdapter implements TemplatePersistenceOutputPort {
 
     @Override
     public Template save(Template domain) {
-        var entity = templateEntityMapper.map(domain);
-
-        var savedEntity = mongoRepository.save(entity);
-
-        return templateEntityMapper.mapBack(savedEntity);
+        try {
+            var entity = templateEntityMapper.map(domain);
+            var savedEntity = mongoRepository.save(entity);
+            return templateEntityMapper.mapBack(savedEntity);
+        } catch (DuplicateKeyException e) {
+            throw new TemplateAlreadyExistsException(domain.getTemplateKey());
+        }
     }
 
     @Override

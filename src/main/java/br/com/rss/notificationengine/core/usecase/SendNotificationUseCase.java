@@ -1,38 +1,29 @@
 package br.com.rss.notificationengine.core.usecase;
 
 import br.com.rss.notificationengine.core.domain.NotificationLog;
-import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnun;
+import br.com.rss.notificationengine.core.domain.enums.NotificationStatusEnum;
 import br.com.rss.notificationengine.core.exception.BusinessException;
 import br.com.rss.notificationengine.core.ports.in.SendNotificationInputPort;
 import br.com.rss.notificationengine.core.ports.out.NotificationLogOutputPort;
 import br.com.rss.notificationengine.core.ports.out.SendMessageBrokerOutputPort;
 import br.com.rss.notificationengine.core.ports.out.TemplateEngineOutputPort;
 import br.com.rss.notificationengine.core.ports.out.TemplatePersistenceOutputPort;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.Instant;
 import java.util.UUID;
 
 import static java.util.Objects.isNull;
 
 
 @Slf4j
+@RequiredArgsConstructor
 public class SendNotificationUseCase implements SendNotificationInputPort {
 
     private final NotificationLogOutputPort notificationLogOutputPort;
     private final SendMessageBrokerOutputPort sendMessageBrokerOutputPort;
     private final TemplateEngineOutputPort templateEngineOutputPort;
     private final TemplatePersistenceOutputPort templatePersistenceOutputPort;
-
-    public SendNotificationUseCase(NotificationLogOutputPort saveNotificationLogPort,
-                                   SendMessageBrokerOutputPort sendMessageBrokerPort,
-                                   TemplateEngineOutputPort templateEnginePort,
-                                   TemplatePersistenceOutputPort templatePersistencePort) {
-        this.notificationLogOutputPort = saveNotificationLogPort;
-        this.sendMessageBrokerOutputPort = sendMessageBrokerPort;
-        this.templateEngineOutputPort = templateEnginePort;
-        this.templatePersistenceOutputPort = templatePersistencePort;
-    }
 
     @Override
     public void execute(NotificationLog notification) {
@@ -44,9 +35,7 @@ public class SendNotificationUseCase implements SendNotificationInputPort {
 
             var logEntry = notification.toBuilder()
                     .content(notification.content().withBody(resolvedBody))
-                    .status(NotificationStatusEnun.PENDING)
-                    .createdAt(Instant.now())
-                    .updatedAt(Instant.now())
+                    .status(NotificationStatusEnum.PENDING)
                     .build();
 
             var savedLog = notificationLogOutputPort.save(logEntry);
