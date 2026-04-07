@@ -20,16 +20,25 @@ The **RSS Notification Engine** is a high-performance microservice developed in 
 
 *   **Java 26** (Utilizing Virtual Threads for high concurrency)
 *   **Spring Boot 4.0.4**
-*   **MongoDB** (Persistence for logs, templates, and auditing with Spring Data)
+*   **MongoDB** (Persistence for logs, templates, and auditing with Spring Data - Automatic ID and Timestamp generation)
 *   **RabbitMQ** (Message broker with Topic Exchanges)
 *   **Docker & Docker Compose** (Container orchestration)
 *   **Spring Boot Docker Compose Support** (Automatic lifecycle management)
 *   **OpenAPI 3 (Swagger)** (Interactive API documentation)
 *   **Lombok** (Boilerplate reduction)
+*   **Checkstyle** (Code quality and [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html) enforcement)
 
 ---
 
-## 🏗 Architecture
+## 🎨 Code Style
+
+The project follows the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html). To ensure consistency:
+
+*   **Checkstyle:** The `maven-checkstyle-plugin` is integrated into the build process.
+*   **IDE Setup:** It is highly recommended to install the **Checkstyle-IDEA** plugin and import the `google_checks.xml` configuration to get real-time feedback.
+*   **Manual Check:** Run `./mvnw checkstyle:check` before committing your changes.
+
+---
 
 The project is structured according to **Hexagonal Architecture** principles:
 
@@ -110,6 +119,10 @@ If you prefer to manage the infrastructure manually:
 *   **Check Docker Logs:**
     ```bash
     docker-compose -f infra/docker-compose.yml logs -f
+    ```
+*   **Run Checkstyle:**
+    ```bash
+    ./mvnw checkstyle:check
     ```
 
 ---
